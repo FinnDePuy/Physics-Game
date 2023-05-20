@@ -9,7 +9,7 @@ class Intro extends Phaser.Scene {
         this.add.text(50,100, "Click anywhere to play.").setFontSize(20);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('level1'));//needs to go back
+            this.time.delayedCall(1000, () => this.scene.start('level3'));//needs to go back
         });
     }
 }
@@ -431,7 +431,7 @@ class summaryTwo extends Phaser.Scene {
         time = 0;
         resets = 0;
         score = 0;
-        this.add.text(100, 300, 'Good luck on the next level.' ,{ font: '50px Arial', fill: '#ffffff' });
+        this.add.text(100, 300, 'Good luck on the next level.\nClick anywhere to continue' ,{ font: '50px Arial', fill: '#ffffff' });
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
             this.time.delayedCall(1000, () => this.scene.start('level3'));
@@ -455,7 +455,7 @@ class levelThree extends Phaser.Scene {
     }
     create(){
         this.platform1 = this.physics.add.staticGroup();
-        this.platform2 = this.physics.add.staticGroup();
+        //this.platform2 = this.physics.add.staticGroup();
         this.platform3 = this.physics.add.staticGroup();
         this.platform4 = this.physics.add.staticGroup();
         this.platform5 = this.physics.add.staticGroup();
@@ -467,22 +467,25 @@ class levelThree extends Phaser.Scene {
         var flag = this.physics.add.staticImage(1800, 840, 'flag').setScale(1).refreshBody();
         var red = this.physics.add.staticImage(420, 375, 'buildingRed').setScale(4).refreshBody();
         var red2 = this.physics.add.staticImage(420, -50, 'buildingRed').setScale(4).refreshBody();
+        var red3 = this.physics.add.staticImage(900, 1000, 'buildingRed').setScale(4).refreshBody();
+        var red4 = this.physics.add.staticImage(1200, 1000, 'buildingRed').setScale(4).refreshBody();
+
+
 
 
 
         this.platform1.create(1050, 950, 'buildingOne').setScale(3).refreshBody();
-        this.platform2.create(900, 950, 'buildingOne').setScale(3).refreshBody();
+        //this.platform2.create(900, 950, 'buildingOne').setScale(3).refreshBody();
         this.platform3.create(700, 720, 'buildingThree').setScale(7).refreshBody();
         this.platform4.create(1800, 965, 'buildingThree').setScale(2).refreshBody();
         this.platform5.create(150, 720, 'buildingThree').setScale(7).refreshBody();
         this.platform6.create(1050, 400, 'buildingThree').setScale(6).refreshBody();
-        this.platform7.create(1300, 900, 'buildingThree').setScale(6).refreshBody();
+        this.platform7.create(1350, 750, 'buildingThree').setScale(6).refreshBody();
 
-        //var bad = this.physics.add.staticImage(1099.5, 300, 'bad').setScale(9).refreshBody();
-        //var bad1 = this.physics.add.staticImage(1099.5, 1000, 'bad').setScale(9).refreshBody();
-        //var bad2 = this.physics.add.staticImage(1099.5, 700, 'bad').setScale(9).refreshBody();
-        //var bad3 = this.physics.add.staticImage(601, 100, 'bad').setScale(7).refreshBody();
-        //var bad4 = this.physics.add.staticImage(601, 600, 'bad').setScale(7).refreshBody();
+        var bad = this.physics.add.staticImage(1050.1, 200, 'bad').setScale(6.01).refreshBody();
+        var bad2 = this.physics.add.staticImage(1050.1, 600, 'bad').setScale(6.01).refreshBody();
+        var bad3 = this.physics.add.staticImage(1350, 800, 'bad').setScale(6.01).refreshBody();
+        var bad4 = this.physics.add.staticImage(1050.1, 100, 'bad').setScale(6.01).refreshBody();
         //var bad5 = this.physics.add.staticImage(601, 400, 'bad').setScale(7).refreshBody();
 
 
@@ -525,26 +528,24 @@ class levelThree extends Phaser.Scene {
         this.physics.add.overlap(red2, this.player, function(){
             inZone = true;
         });
-        // this.physics.add.overlap(bad1, this.player, function(){
-        //     inZone = true;
-        //     resets++;
-        // });
-        // this.physics.add.overlap(bad2, this.player, function(){
-        //     inZone = true;
-        //     resets++;
-        // });
-        // this.physics.add.overlap(bad3, this.player, function(){
-        //     inZone = true;
-        //     resets++;
-        // });
-        // this.physics.add.overlap(bad4, this.player, function(){
-        //     inZone = true;
-        //     resets++;
-        // });
-        // this.physics.add.overlap(bad5, this.player, function(){
-        //     inZone = true;
-        //     resets++;
-        // });
+        this.physics.add.overlap(red3, this.player, function(){
+            inZone = true;
+        });
+        this.physics.add.overlap(red4, this.player, function(){
+            inZone = true;
+        });
+        this.physics.add.overlap(bad, this.player, function(){
+            inZone = true;
+        });
+        this.physics.add.overlap(bad2, this.player, function(){
+            inZone = true;
+        });
+        this.physics.add.overlap(bad3, this.player, function(){
+            inZone = true;
+        });
+        this.physics.add.overlap(bad4, this.player, function(){
+            inZone = true;
+        });
         this.physics.add.overlap(floor, this.player, function(){
             inZone = true;
         });
@@ -645,29 +646,29 @@ class summaryThree extends Phaser.Scene {
         super('summary3')
     }
     create(){
-        fasttime = '00:04';
-        mediumtime = '00:06';
-        slowtime = '00:10';
-            //could not for the life of me get the inputs to count at all correctly it was always a few hundred over
-            let timerValue = this.add.text(100, 150, 'time: ' + time, { font: '32px Arial', fill: '#ffffff' });
-            let resetsvalue = this.add.text(100, 200, 'resets: ' + resets, { font: '32px Arial', fill: '#ffffff' });
-            if(time <= fasttime){
-                score += 10;
-            }else if(time <= mediumtime){
-                score += 5;
-            }else if(time <= slowtime){
-                score += 1;
-            }
-            score -= resets;
-            let scorevalue = this.add.text(100, 250, 'score: ' + score, { font: '32px Arial', fill: '#ffffff' });
-            time = 0;
-            resets = 0;
-            score = 0;
-            this.add.text(100, 300, 'Good luck on the next level.' ,{ font: '50px Arial', fill: '#ffffff' });
-            this.input.on('pointerdown', () => {
-                this.cameras.main.fade(1000, 0,0,0);
-                this.time.delayedCall(1000, () => this.scene.start('level3'));
-            });
+        fasttime = '00:12';
+        mediumtime = '00:24';
+        slowtime = '00:45';
+                //could not for the life of me get the inputs to count at all correctly it was always a few hundred over
+        let timerValue = this.add.text(100, 150, 'time: ' + time, { font: '32px Arial', fill: '#ffffff' });
+        let resetsvalue = this.add.text(100, 200, 'resets: ' + resets, { font: '32px Arial', fill: '#ffffff' });
+        if(time <= fasttime){
+            score += 10;
+        }else if(time <= mediumtime){
+            score += 5;
+        }else if(time <= slowtime){
+            score += 1;
+        }
+        score -= resets/2;
+        let scorevalue = this.add.text(100, 250, 'score: ' + score, { font: '32px Arial', fill: '#ffffff' });
+        time = 0;
+        resets = 0;
+        score = 0;
+        this.add.text(100, 300, 'Well done you did it.\nClick anywhere to continue' ,{ font: '50px Arial', fill: '#ffffff' });
+        this.input.on('pointerdown', () => {
+            this.cameras.main.fade(1000, 0,0,0);
+            this.time.delayedCall(1000, () => this.scene.start('outro'));
+        });
     }
 }
 
