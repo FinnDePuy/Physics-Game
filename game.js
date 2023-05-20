@@ -9,7 +9,7 @@ class Intro extends Phaser.Scene {
         this.add.text(50,100, "Click anywhere to play.").setFontSize(20);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('level3'));//needs to go back
+            this.time.delayedCall(1000, () => this.scene.start('level1'));//needs to go back
         });
     }
 }
@@ -19,6 +19,10 @@ var finish = false;
 var resets = 0;
 var time = 0;
 var score = 0;
+var secondscounted = 0;
+var totalscore = 0;
+var totaltime = 0;
+var totalresets = 0;
 
 class levelOne extends Phaser.Scene {
     constructor(){
@@ -116,7 +120,7 @@ class levelOne extends Phaser.Scene {
         result += (seconds < 10) ? ":0" + seconds : ":" + seconds;
 
         time = result;
-        console.log(result);
+        secondscounted = seconds;
         this.timeLabel.setText(result);
     }
     update() {
@@ -198,11 +202,11 @@ class summaryOne extends Phaser.Scene {
             score += 3;
         }
         score -= resets;
-        if(score < 0){
-            score = 0;
-        }
         let scorevalue = this.add.text(100, 250, 'score: ' + score, { font: '32px Arial', fill: '#ffffff' });
         this.add.text(100, 300, 'Good luck on the next level.\nClick anywhere to continue' ,{ font: '50px Arial', fill: '#ffffff' });
+        totaltime += secondscounted;
+        totalscore += score;
+        totalresets += resets;
         time = 0;
         resets = 0;
         score = 0;
@@ -344,7 +348,7 @@ class levelTwo extends Phaser.Scene {
         result += (seconds < 10) ? ":0" + seconds : ":" + seconds;
 
         time = result;
-        console.log(result);
+        secondscounted = seconds;
         this.timeLabel.setText(result);
     }
     update(){
@@ -428,6 +432,9 @@ class summaryTwo extends Phaser.Scene {
         }
         score -= resets/2;
         let scorevalue = this.add.text(100, 250, 'score: ' + score, { font: '32px Arial', fill: '#ffffff' });
+        totaltime += secondscounted;
+        totalscore += score;
+        totalresets += resets;
         time = 0;
         resets = 0;
         score = 0;
@@ -578,7 +585,7 @@ class levelThree extends Phaser.Scene {
         result += (seconds < 10) ? ":0" + seconds : ":" + seconds;
 
         time = result;
-        console.log(result);
+        secondscounted = seconds;
         this.timeLabel.setText(result);
     }
     update(){
@@ -633,7 +640,7 @@ class levelThree extends Phaser.Scene {
             resets++;
         }
         if(finish){
-            this.scene.start('summary2');
+            this.scene.start('summary3');
             finish = false;
             this.gameTimer.paused = true;
         }
@@ -659,8 +666,11 @@ class summaryThree extends Phaser.Scene {
         }else if(time <= slowtime){
             score += 1;
         }
-        score -= resets/2;
+        score -= (resets/4);
         let scorevalue = this.add.text(100, 250, 'score: ' + score, { font: '32px Arial', fill: '#ffffff' });
+        totaltime += secondscounted;
+        totalscore += score;
+        totalresets += resets;
         time = 0;
         resets = 0;
         score = 0;
@@ -678,7 +688,7 @@ class Outro extends Phaser.Scene {
     }
     create() {
         this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "You sleep in the hut and realize its comfort is good enough to \nsurvive. The hut has a desalination kit and farming equipment. \nSet for a little while longer.").setFontSize(50);
+        this.add.text(50, 100, "Total Score: " + totalscore + "/30" + "\nTotal Resets: " + totalresets + "\nTotal Time: " + totaltime + " seconds").setFontSize(50);
         this.add.text(50, 250, "Click anywhere to restart.").setFontSize(20);
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
