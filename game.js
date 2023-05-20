@@ -5,8 +5,9 @@ class Intro extends Phaser.Scene {
         super('intro')
     }
     create() {
-        this.add.text(50,50, "Lost at Sea").setFontSize(50);
+        this.add.text(50,50, "Skyscraper Runner").setFontSize(50);
         this.add.text(50,100, "Click anywhere to play.").setFontSize(20);
+        this.add.text(50, 150, "Instructions:\nUse A and D to move your character from side to side\nUse W or Space to jump\nHolding S while in air will cause you to fall faster\nPressing Q or E will cause you to move much faster in a chosen direction.\nMuch like a dash.").setFontSize(40);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
             this.time.delayedCall(1000, () => this.scene.start('level1'));//needs to go back
@@ -56,10 +57,6 @@ class levelOne extends Phaser.Scene {
         this.platform4.create(1000, 970, 'buildingOne').setScale(3).refreshBody();
         this.platform5.create(100, 900, 'buildingTwo').setScale(5).refreshBody();
         this.platform6.create(1000, 500, 'buildingOne').setScale(4).refreshBody();
-        //this.floor.create(950, 1710, 'floor').setScale(2).refreshBody();
-
-        
-
 
         this.player = this.physics.add.sprite(100, 540, 'player').setScale(.1)
         this.player.setBounce(0);
@@ -73,8 +70,6 @@ class levelOne extends Phaser.Scene {
         this.physics.add.collider(this.player, this.platform4);
         this.physics.add.collider(this.player, this.platform5);
         this.physics.add.collider(this.player, this.platform6);
-
-
 
         this.startTime = new Date();
         this.totalTime = 120;
@@ -262,9 +257,6 @@ class levelTwo extends Phaser.Scene {
         var bad3 = this.physics.add.staticImage(601, 100, 'bad').setScale(7).refreshBody();
         var bad4 = this.physics.add.staticImage(601, 600, 'bad').setScale(7).refreshBody();
         var bad5 = this.physics.add.staticImage(601, 400, 'bad').setScale(7).refreshBody();
-
-
-
         
         this.player = this.physics.add.sprite(100, 140, 'player').setScale(.1)
         this.player.setBounce(0);
@@ -279,9 +271,6 @@ class levelTwo extends Phaser.Scene {
         this.physics.add.collider(this.player, this.platform5);
         this.physics.add.collider(this.player, this.platform6);
         this.physics.add.collider(this.player, this.platform7);
-
-
-
 
         this.startTime = new Date();
         this.totalTime = 120;
@@ -410,8 +399,6 @@ class levelTwo extends Phaser.Scene {
     }
 }
 
-
-
 class summaryTwo extends Phaser.Scene {
     constructor(){
         super('summary2')
@@ -420,7 +407,7 @@ class summaryTwo extends Phaser.Scene {
         fasttime = '00:08';
         mediumtime = '00:15';
         slowtime = '00:30';
-                //could not for the life of me get the inputs to count at all correctly it was always a few hundred over
+        //could not for the life of me get the inputs to count at all correctly it was always a few hundred over
         let timerValue = this.add.text(100, 150, 'time: ' + time, { font: '32px Arial', fill: '#ffffff' });
         let resetsvalue = this.add.text(100, 200, 'resets: ' + resets, { font: '32px Arial', fill: '#ffffff' });
         if(time <= fasttime){
@@ -687,7 +674,7 @@ class Outro extends Phaser.Scene {
         super('outro');
     }
     create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
+        this.add.text(50, 50, "That's all! Thanks for playing!").setFontSize(50);
         this.add.text(50, 100, "Total Score: " + totalscore + "/30" + "\nTotal Resets: " + totalresets + "\nTotal Time: " + totaltime + " seconds").setFontSize(50);
         this.add.text(50, 250, "Click anywhere to restart.").setFontSize(20);
         this.input.on('pointerdown', () => this.scene.start('intro'));
